@@ -289,18 +289,19 @@ def main() -> int:
         run_script(NERSH_AUTORUN)
     if NERSH_HISTORY_PATH.is_file():
         readline.read_history_file(NERSH_HISTORY_PATH)
-    RL_PROMPT_START_IGNORE = "\001" if NERSH_CONFIG.get("compatibility", {}).get("report_invisible_characters", False) else ""
-    RL_PROMPT_END_IGNORE = "\002" if NERSH_CONFIG.get("compatibility", {}).get("report_invisible_characters", False) else ""
-    color_accent = f"{RL_PROMPT_START_IGNORE}{ModernColor.color(NERSH_CONFIG.get('customization', {}).get('accent_color', 'blue'))}{RL_PROMPT_END_IGNORE}"
-    color_reset = f"{RL_PROMPT_START_IGNORE}{ModernColor.color('reset')}{RL_PROMPT_END_IGNORE}"
     while True:
         try:
+            RL_PROMPT_START_IGNORE = "\001" if NERSH_CONFIG.get("compatibility", {}).get("report_invisible_characters", False) else ""
+            RL_PROMPT_END_IGNORE = "\002" if NERSH_CONFIG.get("compatibility", {}).get("report_invisible_characters", False) else ""
+            color_accent = f"{RL_PROMPT_START_IGNORE}{ModernColor.color(NERSH_CONFIG.get('customization', {}).get('accent_color', 'blue'))}{RL_PROMPT_END_IGNORE}"
+            color_reset = f"{RL_PROMPT_START_IGNORE}{ModernColor.color('reset')}{RL_PROMPT_END_IGNORE}"
             run_line(input(f"{color_accent}{getpass.getuser()}{color_reset}@{hostname} {color_accent}{shorten_path(ENVIRONMENT.get('PWD', f'{Path('~').expanduser()}'))}{color_reset}> "))
         except KeyboardInterrupt:
             print()
             continue
         except EOFError:
             print()
+            readline.write_history_file(str(NERSH_HISTORY_PATH))
             break
 
 if __name__ == "__main__":
