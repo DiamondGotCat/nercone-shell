@@ -4,7 +4,7 @@ build-backend = "uv_build"
 
 [project]
 name = "nercone-shell"
-version = "0.3.1"
+version = "0.3.2"
 description = "Modern shell for Developers"
 readme = { file = "README.md", content-type = "text/markdown" }
 authors = [
@@ -13,7 +13,8 @@ authors = [
 license = { text = "MIT" }
 requires-python = ">=3.8"
 dependencies = [
-    "nercone-modern"
+    "nercone-modern",
+    "pyreadline3; platform_system == 'Windows'"
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
