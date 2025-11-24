@@ -86,7 +86,7 @@ These settings customize the behavior of Nersh.
 - `autoruns`: Sets the shell scripts you want to run at startup in array format.
 
 ### Compatibility
-This setting allows Nersh to function properly in special environments.
+These settings allows Nersh to function properly in special environments.
 - `report_invisible_characters`: A Boolean value that enables reporting of invisible characters to readline, which is necessary in some environments, such as Linux without a GUI (TUI only).
 
 ### Experimental
