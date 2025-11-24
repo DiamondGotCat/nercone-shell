@@ -17,7 +17,6 @@ import readline
 import subprocess
 from pathlib import Path
 from nercone_modern.color import ModernColor
-from nercone_modern.text import ModernText
 from importlib.metadata import version, PackageNotFoundError
 
 try:
@@ -186,6 +185,10 @@ def run_line(command: str) -> int:
     cmd = args[0]
     if cmd == "version":
         show_version()
+    elif cmd == "reset":
+        reset()
+    elif cmd == "reload":
+        reload()
     elif cmd == "cd":
         target = " ".join(args[1:])
         if not target:
@@ -274,8 +277,7 @@ def main() -> int:
         readline.read_history_file(NERSH_HISTORY_PATH)
     while True:
         try:
-            command = input(f"{ModernColor.GREEN}{getpass.getuser()}{ModernColor.RESET}@{os.uname()[1].rsplit('.', 1)[0]} {ModernColor.GREEN}{shorten_path(ENVIRONMENT.get('PWD', f'{Path('~').expanduser()}'))}{ModernColor.RESET}> ")
-            run_line(command)
+            run_line(input(f"{ModernColor.color('green')}{getpass.getuser()}{ModernColor.color('reset')}@{os.uname()[1].rsplit('.', 1)[0]} {ModernColor.color('green')}{shorten_path(ENVIRONMENT.get('PWD', f'{Path('~').expanduser()}'))}{ModernColor.color('reset')}> "))
         except KeyboardInterrupt:
             print()
             continue
