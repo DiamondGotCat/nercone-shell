@@ -285,7 +285,7 @@ def main() -> int:
         readline.read_history_file(NERSH_HISTORY_PATH)
     RL_PROMPT_START_IGNORE = "\001" if NERSH_CONFIG.get("compatibility", {}).get("report_invisible_characters", False) else ""
     RL_PROMPT_END_IGNORE = "\002" if NERSH_CONFIG.get("compatibility", {}).get("report_invisible_characters", False) else ""
-    color_accent = f"{RL_PROMPT_START_IGNORE}{NERSH_CONFIG.get('customization', {}).get('accent_color', 'blue')}{RL_PROMPT_END_IGNORE}"
+    color_accent = f"{RL_PROMPT_START_IGNORE}{ModernColor.color(NERSH_CONFIG.get('customization', {}).get('accent_color', 'blue'))}{RL_PROMPT_END_IGNORE}"
     color_reset = f"{RL_PROMPT_START_IGNORE}{ModernColor.color('reset')}{RL_PROMPT_END_IGNORE}"
     while True:
         try:
