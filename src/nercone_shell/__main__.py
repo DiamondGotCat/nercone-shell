@@ -21,9 +21,9 @@ from nercone_modern.color import ModernColor
 from importlib.metadata import version, PackageNotFoundError
 
 try:
-    hostname = os.uname().nodename
+    hostname = os.uname().nodename.rsplit(".", 1)[0]
 except AttributeError:
-    hostname = platform.uname().node
+    hostname = platform.uname().node.rsplit(".", 1)[0]
 
 try:
     VERSION: str = version("nercone-shell")
@@ -295,7 +295,7 @@ def main() -> int:
             RL_PROMPT_END_IGNORE = "\002" if NERSH_CONFIG.get("compatibility", {}).get("report_invisible_characters", False) else ""
             color_accent = f"{RL_PROMPT_START_IGNORE}{ModernColor.color(NERSH_CONFIG.get('customization', {}).get('accent_color', 'blue'))}{RL_PROMPT_END_IGNORE}"
             color_reset = f"{RL_PROMPT_START_IGNORE}{ModernColor.color('reset')}{RL_PROMPT_END_IGNORE}"
-            run_line(input(f"{color_accent}{getpass.getuser()}{color_reset}@{hostname} {color_accent}{shorten_path(ENVIRONMENT.get('PWD', f'{Path('~').expanduser()}'))}{color_reset}> "))
+            run_line(input(f"{color_accent}{getpass.getuser().lower()}{color_reset}@{hostname.lower()} {color_accent}{shorten_path(ENVIRONMENT.get('PWD', f'{Path('~').expanduser()}'))}{color_reset}> "))
         except KeyboardInterrupt:
             print()
             continue
