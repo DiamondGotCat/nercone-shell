@@ -30,13 +30,18 @@ NERSH_HISTORY_PATH = Path(os.environ.get("NERSH_HISTORY_PATH", str(Path(NERSH_PA
 NERSH_CONFIG: dict = {}
 NERSH_CONFIG_PATH = Path(os.environ.get("NERSH_CONFIG_PATH", str(Path(NERSH_PATH, "config.json"))))
 NERSH_CONFIG_DEFAULT: dict = {
-    "show_version": True,
-    "override_env": {
-        "SHELL": f"{shutil.which('nersh')}"
+    "customization": {
+        "show_version": True,
+        "override_env": {
+            "SHELL": f"{shutil.which('nersh')}"
+        },
+        "autoruns": [
+            f"{Path(NERSH_PATH, 'autostart.sh')}"
+        ]
     },
-    "autoruns": [
-        f"{Path(NERSH_PATH, 'autostart.sh')}"
-    ]
+    "compatibility": {
+        "report_invisible_characters": False
+    }
 }
 
 class NershCompleter:
@@ -158,8 +163,10 @@ def reset():
 def reload():
     global ENVIRONMENT
     load_config()
+    pwd = ENVIRONMENT.get("PWD")
     ENVIRONMENT |= os.environ
-    ENVIRONMENT |= NERSH_CONFIG.get("override_env", {})
+    ENVIRONMENT |= {"PWD": pwd}
+    ENVIRONMENT |= NERSH_CONFIG.get("customization", {}).get("override_env", {})
 
 def load_config() -> dict:
     global NERSH_CONFIG
@@ -169,7 +176,7 @@ def load_config() -> dict:
             f.write(json.dumps(NERSH_CONFIG_DEFAULT, indent=4) + "\n")
     with NERSH_CONFIG_PATH.open("r") as f:
         NERSH_CONFIG |= json.loads(f.read())
-    for p in NERSH_CONFIG.get("autoruns", []):
+    for p in NERSH_CONFIG.get("customization", {}).get("autoruns", []):
         if not Path(p).is_file():
             with Path(p).open("w") as f:
                 f.write("\n")
@@ -261,9 +268,9 @@ def main() -> int:
     else:
         readline.parse_and_bind("tab: complete")
     readline.set_completer_delims(' \t\n;')
-    if NERSH_CONFIG.get("show_version", True):
+    if NERSH_CONFIG.get("customization", {}).get("show_version", True):
         show_version()
-    for p in NERSH_CONFIG.get("autoruns", []):
+    for p in NERSH_CONFIG.get("customization", {}).get("autoruns", []):
         if Path(p).is_file():
             with Path(p).open("r") as f:
                 run_script(f.read())
@@ -275,8 +282,8 @@ def main() -> int:
         run_script(NERSH_AUTORUN)
     if NERSH_HISTORY_PATH.is_file():
         readline.read_history_file(NERSH_HISTORY_PATH)
-    RL_PROMPT_START_IGNORE = '\001'
-    RL_PROMPT_END_IGNORE = '\002'
+    RL_PROMPT_START_IGNORE = "\001" if NERSH_CONFIG.get("compatibility", {}).get("report_invisible_characters", False) else ""
+    RL_PROMPT_END_IGNORE = "\002" if NERSH_CONFIG.get("compatibility", {}).get("report_invisible_characters", False) else ""
     color_green = f"{RL_PROMPT_START_IGNORE}{ModernColor.color('green')}{RL_PROMPT_END_IGNORE}"
     color_reset = f"{RL_PROMPT_START_IGNORE}{ModernColor.color('reset')}{RL_PROMPT_END_IGNORE}"
     while True:
