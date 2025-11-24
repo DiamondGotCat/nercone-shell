@@ -47,6 +47,11 @@ pip3 install nercone-shell --upgrade --break-system-packages
 pip3 install nercone-shell --upgrade
 ```
 
+## Usage
+```
+nersh
+```
+
 ## Configuration
 The configuration file is usually located at `~/.nercone/nercone-shell/config.json`.
 If the file does not exist when Nersh starts, it will be automatically created.
