@@ -275,10 +275,13 @@ def main() -> int:
         run_script(NERSH_AUTORUN)
     if NERSH_HISTORY_PATH.is_file():
         readline.read_history_file(NERSH_HISTORY_PATH)
+    RL_PROMPT_START_IGNORE = '\001'
+    RL_PROMPT_END_IGNORE = '\002'
+    green = f"{RL_PROMPT_START_IGNORE}{ModernColor.color('green')}{RL_PROMPT_END_IGNORE}"
+    reset = f"{RL_PROMPT_START_IGNORE}{ModernColor.color('reset')}{RL_PROMPT_END_IGNORE}"
     while True:
         try:
-            print(f"{ModernColor.color('green')}{getpass.getuser()}{ModernColor.color('reset')}@{os.uname()[1].rsplit('.', 1)[0]} {ModernColor.color('green')}{shorten_path(ENVIRONMENT.get('PWD', f'{Path('~').expanduser()}'))}{ModernColor.color('reset')}> ", end="")
-            run_line(input())
+            run_line(input(f"{green}{getpass.getuser()}{reset}@{os.uname()[1].rsplit('.', 1)[0]} {green}{shorten_path(ENVIRONMENT.get('PWD', f'{Path('~').expanduser()}'))}{reset}> "))
         except KeyboardInterrupt:
             print()
             continue
