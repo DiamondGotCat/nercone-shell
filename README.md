@@ -61,6 +61,7 @@ The following is the default configuration file:
 {
     "customization": {
         "show_version": true,
+        "accent_color": "blue",
         "override_env": {
             "SHELL": "None"
         },
@@ -77,6 +78,7 @@ The following is the default configuration file:
 ### Customization
 These settings customize the behavior of Nersh.
 - `show_version`: Sets whether to display version information at startup.
+- `accent_color`: Accent color used for prompts etc.
 - `override_env`: Sets the environment variables you want to set at startup in dictionary format.
 - `autoruns`: Sets the shell scripts you want to run at startup in array format.
 

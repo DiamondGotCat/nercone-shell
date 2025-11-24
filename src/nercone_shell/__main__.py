@@ -32,6 +32,7 @@ NERSH_CONFIG_PATH = Path(os.environ.get("NERSH_CONFIG_PATH", str(Path(NERSH_PATH
 NERSH_CONFIG_DEFAULT: dict = {
     "customization": {
         "show_version": True,
+        "accent_color": "blue",
         "override_env": {
             "SHELL": f"{shutil.which('nersh')}"
         },
@@ -284,11 +285,11 @@ def main() -> int:
         readline.read_history_file(NERSH_HISTORY_PATH)
     RL_PROMPT_START_IGNORE = "\001" if NERSH_CONFIG.get("compatibility", {}).get("report_invisible_characters", False) else ""
     RL_PROMPT_END_IGNORE = "\002" if NERSH_CONFIG.get("compatibility", {}).get("report_invisible_characters", False) else ""
-    color_green = f"{RL_PROMPT_START_IGNORE}{ModernColor.color('green')}{RL_PROMPT_END_IGNORE}"
+    color_accent = f"{RL_PROMPT_START_IGNORE}{NERSH_CONFIG.get('customization', {}).get('accent_color', 'blue')}{RL_PROMPT_END_IGNORE}"
     color_reset = f"{RL_PROMPT_START_IGNORE}{ModernColor.color('reset')}{RL_PROMPT_END_IGNORE}"
     while True:
         try:
-            run_line(input(f"{color_green}{getpass.getuser()}{color_reset}@{os.uname()[1].rsplit('.', 1)[0]} {color_green}{shorten_path(ENVIRONMENT.get('PWD', f'{Path('~').expanduser()}'))}{color_reset}> "))
+            run_line(input(f"{color_accent}{getpass.getuser()}{color_reset}@{os.uname()[1].rsplit('.', 1)[0]} {color_accent}{shorten_path(ENVIRONMENT.get('PWD', f'{Path('~').expanduser()}'))}{color_reset}> "))
         except KeyboardInterrupt:
             print()
             continue
