@@ -48,6 +48,9 @@ NERSH_CONFIG_DEFAULT: dict = {
     },
     "compatibility": {
         "report_invisible_characters": False
+    },
+    "experimental": {
+        "command_history": False
     }
 }
 
@@ -253,7 +256,8 @@ def run_line(command: str) -> int:
             print(f"nersh: {target}: No such file")
             return 1
     elif cmd == "exit":
-        readline.write_history_file(str(NERSH_HISTORY_PATH))
+        if NERSH_CONFIG.get("experimental", {}).get("command_history", False):
+            readline.write_history_file(str(NERSH_HISTORY_PATH))
         try:
             raise SystemExit(int(args[1]))
         except IndexError:
@@ -287,7 +291,7 @@ def main() -> int:
             print(f"(autorun failed) Not exist: {p}")
     if NERSH_AUTORUN:
         run_script(NERSH_AUTORUN)
-    if NERSH_HISTORY_PATH.is_file():
+    if NERSH_CONFIG.get("experimental", {}).get("command_history", False) and NERSH_HISTORY_PATH.is_file():
         readline.read_history_file(NERSH_HISTORY_PATH)
     while True:
         try:
@@ -296,12 +300,15 @@ def main() -> int:
             color_accent = f"{RL_PROMPT_START_IGNORE}{ModernColor.color(NERSH_CONFIG.get('customization', {}).get('accent_color', 'blue'))}{RL_PROMPT_END_IGNORE}"
             color_reset = f"{RL_PROMPT_START_IGNORE}{ModernColor.color('reset')}{RL_PROMPT_END_IGNORE}"
             run_line(input(f"{color_accent}{getpass.getuser().lower()}{color_reset}@{hostname.lower()} {color_accent}{shorten_path(ENVIRONMENT.get('PWD', f'{Path('~').expanduser()}'))}{color_reset}> "))
+            if not NERSH_CONFIG.get("experimental", {}).get("command_history", False):
+                readline.clear_history()
         except KeyboardInterrupt:
             print()
             continue
         except EOFError:
             print()
-            readline.write_history_file(str(NERSH_HISTORY_PATH))
+            if NERSH_CONFIG.get("experimental", {}).get("command_history", False):
+                readline.write_history_file(str(NERSH_HISTORY_PATH))
             break
 
 if __name__ == "__main__":

@@ -57,7 +57,7 @@ The configuration file is usually located at `~/.nercone/nercone-shell/config.js
 If the file does not exist when Nersh starts, it will be automatically created.
 
 The following is the default configuration file:
-```
+```json
 {
     "customization": {
         "show_version": true,
@@ -71,6 +71,9 @@ The following is the default configuration file:
     },
     "compatibility": {
         "report_invisible_characters": false
+    },
+    "experimental": {
+        "command_history": false
     }
 }
 ```
@@ -85,3 +88,12 @@ These settings customize the behavior of Nersh.
 ### Compatibility
 This setting allows Nersh to function properly in special environments.
 - `report_invisible_characters`: A Boolean value that enables reporting of invisible characters to readline, which is necessary in some environments, such as Linux without a GUI (TUI only).
+
+### Experimental
+The Experimental setting is used to enable experimental features.
+It enables new features that are incomplete, have many bugs, or have unfixable bugs.
+Some features are difficult to completely disable, so they are effectively disabled. (Bugs in external libraries/modules, etc.)
+
+- `command_history` The readline command history feature.
+    - It was marked as an experimental feature because there were frequent issues with the layout collapsing when retracing the history.
+    - Since cannot to find a way to disable the history feature in the readline module, it is effectively disabled by clearing the history after each input.
