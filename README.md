@@ -1,5 +1,5 @@
 
-<img width="1710" alt="Screenshot" src="https://github.com/user-attachments/assets/a717ebd3-c9d4-447c-86a5-7d33eea9c028" />
+<img width="1240" alt="Screenshot" src="https://github.com/user-attachments/assets/e4f2ea8d-9ec0-465d-8d49-9bd7763e0283" />
 
 # Nersh (Nercone Shell)
 Modern shell for Developers
