@@ -277,7 +277,8 @@ def main() -> int:
         readline.read_history_file(NERSH_HISTORY_PATH)
     while True:
         try:
-            run_line(input(f"{ModernColor.color('green')}{getpass.getuser()}{ModernColor.color('reset')}@{os.uname()[1].rsplit('.', 1)[0]} {ModernColor.color('green')}{shorten_path(ENVIRONMENT.get('PWD', f'{Path('~').expanduser()}'))}{ModernColor.color('reset')}> "))
+            print(f"{ModernColor.color('green')}{getpass.getuser()}{ModernColor.color('reset')}@{os.uname()[1].rsplit('.', 1)[0]} {ModernColor.color('green')}{shorten_path(ENVIRONMENT.get('PWD', f'{Path('~').expanduser()}'))}{ModernColor.color('reset')}> ", end="")
+            run_line(input())
         except KeyboardInterrupt:
             print()
             continue
