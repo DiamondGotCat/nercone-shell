@@ -93,7 +93,10 @@ These settings allows Nersh to function properly in special environments.
 The Experimental setting is used to enable experimental features.
 It enables new features that are incomplete, have many bugs, or have unfixable bugs.
 Some features are difficult to completely disable, so they are effectively disabled. (Bugs in external libraries/modules, etc.)
-
 - `command_history` The readline command history feature.
     - It was marked as an experimental feature because there were frequent issues with the layout collapsing when retracing the history.
     - Since cannot to find a way to disable the history feature in the readline module, it is effectively disabled by clearing the history after each input.
+
+---
+
+![PyPI - Version](https://img.shields.io/pypi/v/nercone-shell)

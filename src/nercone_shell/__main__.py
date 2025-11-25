@@ -28,7 +28,7 @@ except AttributeError:
 try:
     VERSION: str = version("nercone-shell")
 except PackageNotFoundError:
-    VERSION: str = "0.0.0"
+    VERSION: str = "(version unknown)"
 ENVIRONMENT: dict = {}
 NERSH_AUTORUN: str = os.environ.get("NERSH_AUTORUN", None)
 NERSH_PATH = Path(os.environ.get("NERSH_PATH", str(Path(Path("~").expanduser(), ".nercone", "nercone-shell"))))
@@ -162,7 +162,7 @@ def shorten_path(path: str) -> str:
     return path_str
 
 def show_version():
-    print(f"Nersh v{VERSION}")
+    print(f"Nersh {VERSION}")
 
 def reset():
     global ENVIRONMENT, NERSH_CONFIG
